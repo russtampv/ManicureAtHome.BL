@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManicureAtHome.BL", "ManicureAtHome.BL\ManicureAtHome.BL.csproj", "{451762B2-EED5-42FC-8DE2-8F17CFFE322B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4C0AFE6D-4EE3-4D4E-B6E4-80B0B56B5A7E}"
+	ProjectSection(SolutionItems) = preProject
+		Nail.ico = Nail.ico
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManicureTest", "ManicureTest\ManicureTest.csproj", "{D0BE0DE5-8295-402C-804E-293211EC4D8E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{451762B2-EED5-42FC-8DE2-8F17CFFE322B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{451762B2-EED5-42FC-8DE2-8F17CFFE322B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{451762B2-EED5-42FC-8DE2-8F17CFFE322B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{451762B2-EED5-42FC-8DE2-8F17CFFE322B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0BE0DE5-8295-402C-804E-293211EC4D8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0BE0DE5-8295-402C-804E-293211EC4D8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0BE0DE5-8295-402C-804E-293211EC4D8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0BE0DE5-8295-402C-804E-293211EC4D8E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {165BCC04-9EB4-45DB-A068-DF01EA4FA541}
+	EndGlobalSection
+EndGlobal
