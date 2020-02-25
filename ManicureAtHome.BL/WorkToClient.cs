@@ -1,7 +1,6 @@
 ﻿using ManicureAtHome.BL.EF;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ManicureAtHome.BL
 {
@@ -14,10 +13,23 @@ namespace ManicureAtHome.BL
         {
             ClientToEF.Context = new ManicureSaloonContext();
         }
-        public void Add(Client record)
+        public (string desc, bool isAdded) Add(Client record)
         {
-            ClientToEF.Context.Clients.Add(record);
-            SaveChange();
+            var contacts = ClientToEF.Context.Contacts.ToList();
+            if (contacts.Any(contact => contact.Mail == record.Contact.Mail))
+            {
+                return ("Клиент с таким адресом почты уже существует", false);
+            }
+            else if (contacts.Any(contact => contact.PhoneNumber == record.Contact.PhoneNumber))
+            {
+                return ("Клиент с таким номером телефона уже существует", false);
+            }
+            else
+            {
+                ClientToEF.Context.Clients.Add(record);
+                SaveChange();
+                return ("Клиент успешно добавлен", true);
+            }
         }
 
         public Client Find(int Id)

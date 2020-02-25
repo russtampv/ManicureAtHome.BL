@@ -14,7 +14,7 @@ namespace ManicureAtHome.BL
         /// Добавление запись
         /// </summary>
         /// <param name="contact">запись добавляемая в таблицу</param>
-        void Add(T record);
+        (string desc, bool isAdded) Add(T record);
        
         /// <summary>
         /// Выбрать клиента

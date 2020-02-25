@@ -46,6 +46,8 @@ namespace ManicureAtHome.BL.EF
             modelBuilder.Entity<Contact>().HasIndex(item => new { item.FirstName, item.LastName });
             modelBuilder.Entity<Material>().HasIndex(material => material.materialName);
             modelBuilder.Entity<Service>().Property(p => p.Price).HasColumnType("decimal(18,2)");
+            modelBuilder.Entity<Contact>().HasIndex(p => new {p.Mail});
+            modelBuilder.Entity<RecordToSpecialist>().HasIndex(record => new { record.AppointmentDate, record.AppointmentTime });
             base.OnModelCreating(modelBuilder);
         }
     }

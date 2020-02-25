@@ -8,9 +8,22 @@ namespace ManicureAtHome.BL
 {
     public class WorkToSupplier : IWorker<Supplier>
     {
-        public void Add(Supplier record)
+        private ManicureSaloonContext _context;
+        public WorkToSupplier(ManicureSaloonContext context)
         {
-            ClientToEF.Context = new ManicureSaloonContext();
+            _context = context;
+        }
+        public (string desc, bool isAdded) Add(Supplier record)
+        {
+            if (_context.Suppliers.All(rec => rec.Contact != record.Contact))
+            {
+                _context.Suppliers.Add(record);
+                _context.SaveChanges();
+                return ("Поставщик успешно добавлен", true);
+            }
+            else if (_context.Suppliers.Any(rec => rec.Contact == record.Contact))
+                return ("Поставщик был добавлен ранее", false);
+            return ("Возникли проблемы при добавлении поставщика", false);
         }
 
         public Supplier Find(int Id)
@@ -20,7 +33,7 @@ namespace ManicureAtHome.BL
 
         public IEnumerable<Supplier> GetAll()
         {
-            return ClientToEF.Context.Suppliers.Where(item=>item.Contact.IsSupplier);
+            return ClientToEF.Context.Suppliers.Where(item => item.Contact.IsSupplier);
         }
 
         public bool Remove(int Id)

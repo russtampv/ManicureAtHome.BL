@@ -13,16 +13,20 @@ namespace ManicureTest
             {
                 Contact = new Contact
                 {
-                    FirstName = "*******",
-                    LastName = "Айгуль",
-                    InstagrammAddress = "aigul1989",
+                    FirstName = "Пермяков",
+                    LastName = "Антон",
+                    InstagrammAddress = "antuan1989",
                     IsSupplier = false,
-                    PhoneNumber = "+7950*****93",
-                    Mail = "aigul@mail.ru"
+                    PhoneNumber = "+79506544554",
+                    Mail = "antonio@mail.ru"
                 },
             };
             var EFClient = new ClientToEF();
-            EFClient.WorkToClient.Add(client);
+            var result = EFClient.WorkToClient.Add(client);
+            if (result.isAdded)
+            {
+                Console.WriteLine(result.desc);
+            }
             var clientId = 7;
             if (EFClient.WorkToClient.Remove(clientId))
                 Console.WriteLine("Клиент успешно удален!");

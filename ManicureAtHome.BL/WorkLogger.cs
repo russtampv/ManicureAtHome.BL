@@ -15,7 +15,7 @@ namespace ManicureAtHome.BL
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            this.Dispose();
         }
 
 
