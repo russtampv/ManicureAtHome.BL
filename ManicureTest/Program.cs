@@ -13,11 +13,11 @@ namespace ManicureTest
             {
                 Contact = new Contact
                 {
-                    FirstName = "Юрлова",
+                    FirstName = "*******",
                     LastName = "Айгуль",
                     InstagrammAddress = "aigul1989",
                     IsSupplier = false,
-                    PhoneNumber = "+79501930693",
+                    PhoneNumber = "+7950*****93",
                     Mail = "aigul@mail.ru"
                 },
             };
