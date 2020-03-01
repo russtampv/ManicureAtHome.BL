@@ -11,15 +11,11 @@ namespace ManicureTest
         {
             var client = new Client()
             {
-                Contact = new Contact
-                {
                     FirstName = "Пермяков",
                     LastName = "Антон",
                     InstagrammAddress = "antuan1989",
-                    IsSupplier = false,
                     PhoneNumber = "+79506544554",
                     Mail = "antonio@mail.ru"
-                },
             };
             var EFClient = new ClientToEF();
             var result = EFClient.WorkToClient.Add(client);

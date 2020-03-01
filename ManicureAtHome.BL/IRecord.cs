@@ -5,16 +5,15 @@ using System.Text;
 
 namespace ManicureAtHome.BL
 {
-    public interface IRecord<T> where T : RecordToSpecialist 
+    public interface IRecord<T> where T : class 
     {
         string Description { get; set; }
-        bool Add(RecordToSpecialist record);
-        RecordToSpecialist RecordFind(string firstName, string lastName);
-        RecordToSpecialist RecordFind(int recordId);
-        void Remove(string firstName, string LastName);
+        bool Add(T record);
+        IEnumerable<T> RecordFind(string phone = null, string firstName = null, string lastName = null);
+        T RecordFind(string mail);
+        T RecordFind(int recordId);
         void Remove(int recordId);
-        void UpdateRecord(int recordId);
-        void UpdateRecord(string mail);
-        IEnumerable<RecordToSpecialist> GetAllRecords();
+        void UpdateRecord(T record);
+        IEnumerable<T> GetAllRecords();
     }
 }

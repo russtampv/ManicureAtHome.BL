@@ -35,6 +35,5 @@ namespace ManicureAtHome.BL
         /// <returns></returns>
         bool Remove(int Id);
 
-
     }
 }

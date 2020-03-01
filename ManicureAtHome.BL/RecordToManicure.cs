@@ -11,39 +11,7 @@ namespace ManicureAtHome.BL
     {
         public string Description { get; set; }
 
-
-        public IEnumerable<RecordToSpecialist> GetAllRecords()
-        {
-            throw new NotImplementedException();
-        }
-
-        public RecordToSpecialist RecordFind(string firstName, string lastName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public RecordToSpecialist RecordFind(int recordId)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public void Remove(string firstName, string LastName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateRecord(int recordId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateRecord(string mail)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool IRecord<RecordToSpecialist>.Add(RecordToSpecialist record)
+        public bool Add(RecordToSpecialist record)
         {
             using (ClientToEF.Context = new ManicureSaloonContext())
             {
@@ -52,7 +20,7 @@ namespace ManicureAtHome.BL
                 && rec.AppointmentTime == record.AppointmentTime))
                 {
                     Description = "Данное время уже занято";
-                    return  false;
+                    return false;
                 }
                 else if (ClientToEF.Context.Records.Any(rec => rec.AppointmentDate == record.AppointmentDate
                 && !string.IsNullOrEmpty(record.AppointmentTime.ToString())))
@@ -65,14 +33,54 @@ namespace ManicureAtHome.BL
                     ClientToEF.Context.Records.Add(record);
                     ClientToEF.Context.SaveChanges();
                     Description = "Клиент успешно записан на встречу";
-                    return  true;
+                    return true;
                 }
             }
         }
-        void IRecord<RecordToSpecialist>.Remove(int recordId)
+
+        public IEnumerable<RecordToSpecialist> GetAllRecords()
         {
-            //var result = ClientToEF.Context.Records.Include(r=>r.Id)
-            //if (records.fi)
+            return ClientToEF.Context.Records;
+        }
+
+        public IEnumerable<RecordToSpecialist> RecordFind(string phone=null, string firstName=null, string lastName=null)
+        {
+            if (phone==null)
+            {
+                if (firstName == null)
+                    return ClientToEF.Context.Records.Where(record => record.Client.LastName == lastName);
+                else
+                    return ClientToEF.Context.Records.Where(record => record.Client.FirstName == firstName || record.Client.LastName == lastName);
+            }
+            else if (phone!=null)
+            {
+                return ClientToEF.Context.Records.Where(record => record.Client.PhoneNumber == phone);
+            }
+            return null;
+        }
+
+        public RecordToSpecialist RecordFind(string mail)
+        {
+            var record = ClientToEF.Context.Records.Find(mail);
+            if (record.Client != null)
+                return record;
+            return null;
+        }
+
+        public RecordToSpecialist RecordFind(int recordId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remove(int recordId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async void UpdateRecord(RecordToSpecialist record)
+        {
+            ClientToEF.Context.Records.Update(record);
+           await ClientToEF.Context.SaveChangesAsync();
         }
     }
 }

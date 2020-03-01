@@ -15,30 +15,36 @@ namespace ManicureAtHome.BL
         }
         public (string desc, bool isAdded) Add(Supplier record)
         {
-            if (_context.Suppliers.All(rec => rec.Contact != record.Contact))
+            if (_context.Suppliers.All(rec => rec.Mail != record.Mail && rec.PhoneNumber != rec.PhoneNumber))
             {
                 _context.Suppliers.Add(record);
                 _context.SaveChanges();
                 return ("Поставщик успешно добавлен", true);
             }
-            else if (_context.Suppliers.Any(rec => rec.Contact == record.Contact))
+            else if (_context.Suppliers.Any(rec => rec.Mail == record.Mail||rec.PhoneNumber==rec.PhoneNumber))
                 return ("Поставщик был добавлен ранее", false);
             return ("Возникли проблемы при добавлении поставщика", false);
         }
 
         public Supplier Find(int Id)
         {
-            throw new NotImplementedException();
+            return _context.Suppliers.Find(Id);
         }
 
         public IEnumerable<Supplier> GetAll()
         {
-            return ClientToEF.Context.Suppliers.Where(item => item.Contact.IsSupplier);
+            return _context.Suppliers;
         }
 
-        public bool Remove(int Id)
+        public bool Remove(int supplierId)
         {
-            throw new NotImplementedException();
+            var supplier = _context.Suppliers.Find(supplierId);
+            if (_context.Suppliers.Any(sup => sup.Id == supplierId))
+            {
+                _context.Entry<Supplier>(supplier).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+                return true;
+            }
+            return false;
         }
     }
 }

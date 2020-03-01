@@ -23,7 +23,6 @@ namespace ManicureAtHome.BL.EF
         public DbSet<WareHouse> WareHouse { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<SoldService> SoldServices { get; set; }
-        public DbSet<Contact> Contacts { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //var builder = new ConfigurationBuilder();
@@ -43,11 +42,12 @@ namespace ManicureAtHome.BL.EF
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Использование Fluent API
-            modelBuilder.Entity<Contact>().HasIndex(item => new { item.FirstName, item.LastName });
+            modelBuilder.Entity<Client>().HasIndex(item => new { item.FirstName, item.LastName });
             modelBuilder.Entity<Material>().HasIndex(material => material.materialName);
             modelBuilder.Entity<Service>().Property(p => p.Price).HasColumnType("decimal(18,2)");
-            modelBuilder.Entity<Contact>().HasIndex(p => new {p.Mail});
+            modelBuilder.Entity<Client>().HasIndex(p => new {p.Mail});
             modelBuilder.Entity<RecordToSpecialist>().HasIndex(record => new { record.AppointmentDate, record.AppointmentTime });
+            modelBuilder.Entity<Supplier>().HasIndex(supplier => new { supplier.FirstName, supplier.LastName });
             base.OnModelCreating(modelBuilder);
         }
     }

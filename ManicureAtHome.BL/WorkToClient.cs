@@ -15,12 +15,12 @@ namespace ManicureAtHome.BL
         }
         public (string desc, bool isAdded) Add(Client record)
         {
-            var contacts = ClientToEF.Context.Contacts.ToList();
-            if (contacts.Any(contact => contact.Mail == record.Contact.Mail))
+            var contacts = ClientToEF.Context.Clients.ToList();
+            if (contacts.Any(contact => contact.Mail == record.Mail))
             {
                 return ("Клиент с таким адресом почты уже существует", false);
             }
-            else if (contacts.Any(contact => contact.PhoneNumber == record.Contact.PhoneNumber))
+            else if (contacts.Any(contact => contact.PhoneNumber == record.PhoneNumber))
             {
                 return ("Клиент с таким номером телефона уже существует", false);
             }
@@ -39,16 +39,16 @@ namespace ManicureAtHome.BL
 
         public IEnumerable<Client> GetAll()
         {
-            var clients = ClientToEF.Context.Clients.Where(client => !client.Contact.IsSupplier);
+            var clients = ClientToEF.Context.Clients;
             return clients;
         }
 
         public bool Remove(int Id)
         {
-            var client = ClientToEF.Context.Clients.Find(Id);
+            var client = ClientToEF.Context.Clients.FindAsync(Id);
             if (client != null)
             {
-                ClientToEF.Context.Clients.Remove(client);
+                ClientToEF.Context.Entry<Client>(client.Result).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
                 SaveChange();
                 return true;
             }

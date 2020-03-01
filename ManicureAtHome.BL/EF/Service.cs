@@ -14,6 +14,7 @@ namespace ManicureAtHome.BL.EF
         [MaxLength(200)]
         public string Worker { get; set; }
         public List<Material> Materials {get;set;}
+        
         public decimal Price { get; set; }
         [Required]
         public DateTime? WorkTime { get; set; }
