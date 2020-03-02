@@ -30,14 +30,28 @@ namespace ManicureAtHome.BL.EF
         [RegularExpression(@"(\+)*[7|8|1|2]{1}\d{10}",
             ErrorMessage = "Неверно указан номер телефона")]
         public string PhoneNumber { get; set; }
+        /// <summary>
+        /// Адрес в инстаграм
+        /// </summary>
         public string InstagrammAddress { get; set; }
+        /// <summary>
+        /// Адрес почты
+        /// </summary>
         [MaxLength(300)]
         [RegularExpression(@"\S+@[a-zA-Z0-9]+\.[a-zA-Z]{2,4}",
             ErrorMessage = "Адрес почты не сообветствует формату!")]
         public string Mail { get; set; }
-
+        /// <summary>
+        /// Наименование организации поставщика
+        /// </summary>
         public string OrganizationName { get; set; }
+        /// <summary>
+        /// Адрес поставщика
+        /// </summary>
         public string Address { get; set; }
+        /// <summary>
+        /// Указывает, есть ли у поставщика доставка
+        /// </summary>
         public bool IsDelivery { get; set; }
     }
 }

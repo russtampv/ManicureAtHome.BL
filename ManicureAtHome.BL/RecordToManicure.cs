@@ -40,7 +40,7 @@ namespace ManicureAtHome.BL
 
         public IEnumerable<RecordToSpecialist> GetAllRecords()
         {
-            return ClientToEF.Context.Records;
+            return ClientToEF.Context.Records.Include(c => c.Services);
         }
 
         public IEnumerable<RecordToSpecialist> RecordFind(string phone=null, string firstName=null, string lastName=null)

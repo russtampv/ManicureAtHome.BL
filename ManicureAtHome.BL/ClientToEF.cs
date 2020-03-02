@@ -5,7 +5,10 @@ namespace ManicureAtHome.BL
     public class ClientToEF
     {
         public static ManicureSaloonContext Context { get; set; }
-        public IWorker<Client> WorkToClient { get; }
+        public IWorker<Client> ClientWorker { get; }
+        public IWorker<Supplier> SupplierWorker { get; }
+        public IRecord<RecordToSpecialist> RecordsWorker { get; }
+
 
         /// <summary>
         /// Создаем клиента для взаимодействия с EntityFramework
@@ -13,7 +16,9 @@ namespace ManicureAtHome.BL
         public ClientToEF()
         {
             Context = new ManicureSaloonContext();
-            WorkToClient = new WorkToClient();
+            ClientWorker = new WorkToClient();
+            SupplierWorker = new WorkToSupplier(Context);
+            RecordsWorker = new RecordToManicure();
         }
     }
 }

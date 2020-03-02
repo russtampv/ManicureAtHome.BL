@@ -39,7 +39,5 @@ namespace ManicureAtHome.BL.EF
             ErrorMessage = "Адрес почты не сообветствует формату!")]
         public string Mail { get; set; }
 
-        public RecordToSpecialist Records { get; set; }
-        public SoldService Sold { get; set; }
     }
 }

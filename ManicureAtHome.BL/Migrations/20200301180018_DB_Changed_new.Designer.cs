@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManicureAtHome.BL.Migrations
 {
     [DbContext(typeof(ManicureSaloonContext))]
-    [Migration("20200224120840_UpdateClientTable")]
-    partial class UpdateClientTable
+    [Migration("20200301180018_DB_Changed_new")]
+    partial class DB_Changed_new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,23 +28,6 @@ namespace ManicureAtHome.BL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ContactId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContactId");
-
-                    b.ToTable("Clients");
-                });
-
-            modelBuilder.Entity("ManicureAtHome.BL.EF.Contact", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(300)")
                         .HasMaxLength(300);
@@ -52,25 +35,26 @@ namespace ManicureAtHome.BL.Migrations
                     b.Property<string>("InstagrammAddress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsSupplier")
-                        .HasColumnType("bit");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(300)")
                         .HasMaxLength(300);
 
                     b.Property<string>("Mail")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(300)")
+                        .HasMaxLength(300);
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(15)")
+                        .HasMaxLength(15);
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Mail");
+
                     b.HasIndex("FirstName", "LastName");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("ManicureAtHome.BL.EF.Material", b =>
@@ -92,7 +76,7 @@ namespace ManicureAtHome.BL.Migrations
                         .HasMaxLength(200);
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("numeric(10,2)");
 
                     b.Property<int?>("QualityLevel")
                         .HasColumnType("int");
@@ -126,22 +110,24 @@ namespace ManicureAtHome.BL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("AppointmentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("AppointmentTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateOfReceipt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("TimeOfReceipt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId")
-                        .IsUnique();
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("AppointmentDate", "AppointmentTime");
 
                     b.ToTable("Records");
                 });
@@ -194,15 +180,14 @@ namespace ManicureAtHome.BL.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("numeric(10,2)");
 
                     b.Property<DateTime?>("TimeToWork")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId")
-                        .IsUnique();
+                    b.HasIndex("ClientId");
 
                     b.ToTable("SoldServices");
                 });
@@ -217,18 +202,35 @@ namespace ManicureAtHome.BL.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ContactId")
-                        .HasColumnType("int");
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(300)")
+                        .HasMaxLength(300);
+
+                    b.Property<string>("InstagrammAddress")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDelivery")
                         .HasColumnType("bit");
 
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(300)")
+                        .HasMaxLength(300);
+
+                    b.Property<string>("Mail")
+                        .HasColumnType("nvarchar(300)")
+                        .HasMaxLength(300);
+
                     b.Property<string>("OrganizationName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(15)")
+                        .HasMaxLength(15);
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ContactId");
+                    b.HasIndex("FirstName", "LastName");
 
                     b.ToTable("Suppliers");
                 });
@@ -264,15 +266,6 @@ namespace ManicureAtHome.BL.Migrations
                     b.ToTable("WareHouse");
                 });
 
-            modelBuilder.Entity("ManicureAtHome.BL.EF.Client", b =>
-                {
-                    b.HasOne("ManicureAtHome.BL.EF.Contact", "Contact")
-                        .WithMany()
-                        .HasForeignKey("ContactId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ManicureAtHome.BL.EF.Material", b =>
                 {
                     b.HasOne("ManicureAtHome.BL.EF.Service", null)
@@ -289,8 +282,8 @@ namespace ManicureAtHome.BL.Migrations
             modelBuilder.Entity("ManicureAtHome.BL.EF.RecordToSpecialist", b =>
                 {
                     b.HasOne("ManicureAtHome.BL.EF.Client", "Client")
-                        .WithOne("Records")
-                        .HasForeignKey("ManicureAtHome.BL.EF.RecordToSpecialist", "ClientId")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -309,17 +302,10 @@ namespace ManicureAtHome.BL.Migrations
             modelBuilder.Entity("ManicureAtHome.BL.EF.SoldService", b =>
                 {
                     b.HasOne("ManicureAtHome.BL.EF.Client", "Client")
-                        .WithOne("Sold")
-                        .HasForeignKey("ManicureAtHome.BL.EF.SoldService", "ClientId")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ManicureAtHome.BL.EF.Supplier", b =>
-                {
-                    b.HasOne("ManicureAtHome.BL.EF.Contact", "Contact")
-                        .WithMany()
-                        .HasForeignKey("ContactId");
                 });
 
             modelBuilder.Entity("ManicureAtHome.BL.EF.WareHouse", b =>
